@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更多概念认知游戏</title>
+    <meta name="theme-color" content="#ff7aa8">
+    <!-- 确保这里的路径正确 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🍎 更多概念认知游戏 🍎</h1>
+            <p class="subtitle">给小朋友的“找更多”小游戏</p>
+        </div>
+
+        <!-- 加载失败提示（当脚本未运行时显示） -->
+        <div id="loadError" class="load-error" style="display:none">
+            <h2>页面没有加载成功</h2>
+            <p>请确认 `index.html`、`style.css`、`script.js` 三个文件在同一个文件夹。</p>
+            <p>如果你是直接双击打开，建议用本地服务器方式打开（更稳定）：在 `d:\game` 运行 `python -m http.server 8000`，然后浏览器打开 `http://localhost:8000/`。</p>
+        </div>
+
+        <!-- 开始界面 -->
+        <div id="startScreen" class="start-screen">
+            <h2>欢迎来玩！</h2>
+            <div class="instructions-list">
+                <ol>
+                    <li>👀 看提示：要找“更多”的那一边</li>
+                    <li>👉 轻轻点一下你觉得更多的盒子</li>
+                    <li>⭐ 点对会得到鼓励，点错也没关系</li>
+                </ol>
+            </div>
+            
+            <div class="start-controls">
+                <div class="toggle-row" role="group" aria-label="游戏提示设置">
+                    <label class="toggle">
+                        <input type="checkbox" id="sfxToggle" checked>
+                        <span>音效</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="voiceToggle">
+                        <span>语音提示</span>
+                    </label>
+                </div>
+            </div>
+
+            <p class="mode-title">请选择游戏模式：</p>
+            <div class="mode-selector">
+                <button class="mode-btn" data-rounds="3">3轮（新手）</button>
+                <button class="mode-btn active" data-rounds="5">5轮游戏</button>
+                <button class="mode-btn" data-rounds="10">10轮游戏</button>
+            </div>
+            
+            <button class="btn btn-primary" id="startBtn">开始游戏</button>
+        </div>
+
+        <!-- 游戏界面 -->
+        <div id="gameScreen" class="hidden">
+            <div class="round-info">
+                <span>第 <strong id="currentRound">1</strong> / <strong id="totalRounds">5</strong> 轮</span>
+            </div>
+            <div class="progress" aria-hidden="true">
+                <div class="progress__bar" id="progressBar" style="width: 0%;"></div>
+            </div>
+            <div class="instruction-box">
+                <p id="instructionText">选择更多的🍎</p>
+                <p class="hint" id="hintText">提示：更多 = 数量更大</p>
+            </div>
+            <div class="options-container" id="optionsContainer"></div>
+        </div>
+
+        <!-- 结果界面 -->
+        <div id="resultScreen" class="result-screen hidden">
+            <h2>🎉 游戏完成！</h2>
+            <div class="stars" aria-label="本次获得的星星">
+                <span class="stars__icon" aria-hidden="true">⭐</span>
+                <span id="starsCount" class="stars__count">0</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">正确次数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracyRate">0%</div>
+                    <div class="stat-label">正确率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avgTime">0ms</div>
+                    <div class="stat-label">平均反应时间</div>
+                </div>
+            </div>
+            <div class="assessment-report">
+                <h3>📝 能力评估报告</h3>
+                <p id="assessmentText"></p>
+            </div>
+            <button class="btn btn-primary" id="restartBtn">再玩一次</button>
+        </div>
+    </div>
+
+    <!-- 反馈层 -->
+    <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="feedback-content">
+            <div class="feedback-icon" id="feedbackIcon">✓</div>
+            <div class="feedback-text" id="feedbackText">正确！</div>
+        </div>
+    </div>
+
+    <!-- 确保这里的路径正确 -->
+    <script src="script.js"></script>
+    <script>
+        setTimeout(() => {
+            if (!window.__MORE_GAME_LOADED__) {
+                const el = document.getElementById('loadError');
+                if (el) el.style.display = 'block';
+            }
+        }, 300);
+    </script>
+</body>
+</html>
